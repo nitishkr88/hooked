@@ -21,7 +21,7 @@ const reducer = (state, action) => {
     case 'FETCH_ERROR':
       return {
         ...state,
-        error: action.payload.error,
+        error: action.payload,
         loading: false,
         data: null
       }

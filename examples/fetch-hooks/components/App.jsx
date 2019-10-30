@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 
-import { useFetch } from 'hooked'
+import { useFetch, useLazyFetch } from 'hooked'
 
 export default () => {
   const [page, setPage] = useState(1)
