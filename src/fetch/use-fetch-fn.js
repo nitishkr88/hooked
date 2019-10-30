@@ -7,7 +7,9 @@ const useFecthFn = (dispatch, url, options) => {
         dispatch({ type: 'FETCH_IN_PROGRESS' })
 
         if (options.body) {
-          options.body = JSON.stringify(options.body)
+          if (typeof options.body === 'object') {
+            options.body = JSON.stringify(options.body)
+          }
         }
 
         const response = await fetch(url, options)
