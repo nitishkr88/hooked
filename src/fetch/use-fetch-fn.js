@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import handleErrors from './handle-errors'
 
 const useFecthFn = (dispatch, url, options) => {
   return useCallback(() => {
@@ -15,7 +16,9 @@ const useFecthFn = (dispatch, url, options) => {
         const response = await fetch(url, options)
         const { headers } = response
 
-        const body = await response.json()
+        // eslint-disable-next-line no-underscore-dangle
+        const _response = handleErrors(response)
+        const body = await _response.json()
 
         dispatch({ type: 'FETCH_SUCCESS', payload: { body, headers } })
       } catch (ex) {
