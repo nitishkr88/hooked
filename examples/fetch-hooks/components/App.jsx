@@ -5,9 +5,7 @@ import { useFetch } from 'hooked'
 export default () => {
   const [page, setPage] = useState(1)
 
-  const { loading, error, data } = useFetch(
-    `https://swapi.co/api/planets/${page}/`
-  )
+  const { loading, error, data } = useFetch(`planets/${page}/`)
 
   const onNext = useCallback(() => setPage(p => p + 1), [])
   const onPrev = useCallback(() => setPage(p => p - 1), [])

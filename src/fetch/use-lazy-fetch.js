@@ -1,5 +1,8 @@
-import { useReducer } from 'react'
+import { useContext, useReducer } from 'react'
+import url from 'url'
+
 import useFecthFn from './use-fetch-fn'
+import { FetchContext } from './context'
 
 const initialState = {
   error: null,
@@ -37,20 +40,11 @@ const reducer = (state, action) => {
   }
 }
 
-const useLazyFetch = (url, options) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
-  const updatedOptions = parseOptions(options)
-  const doFetch = useFecthFn(dispatch, url, updatedOptions)
-
-  return [doFetch, state]
-}
-
 function parseOptions(options = {}) {
   const headers = options.headers || {}
 
-  if (!headers['Accept']) {
-    headers['Accept'] = 'application/json'
+  if (!headers.Accept) {
+    headers.Accept = 'application/json'
   }
 
   if (!headers['Content-Type']) {
@@ -58,6 +52,26 @@ function parseOptions(options = {}) {
   }
 
   return { ...options, headers }
+}
+
+function resolvePath(base, path) {
+  if (path.startsWith('http')) return path
+
+  const appendedBase = base.endsWith('/') ? base : `${base}/`
+  const trimmedPath = path.startsWith('/') ? path.slice(1) : path
+
+  return url.resolve(appendedBase, trimmedPath)
+}
+
+const useLazyFetch = (path, options) => {
+  const { base } = useContext(FetchContext)
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const resolvedPath = resolvePath(base, path)
+  const updatedOptions = parseOptions(options)
+  const doFetch = useFecthFn(dispatch, resolvedPath, updatedOptions)
+
+  return [doFetch, state]
 }
 
 export default useLazyFetch
