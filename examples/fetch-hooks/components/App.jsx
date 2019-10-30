@@ -9,25 +9,33 @@ export default () => {
     `https://swapi.co/api/planets/${page}/`
   )
 
-  const onClick = useCallback(() => setPage(p => p + 1), [])
+  const onNext = useCallback(() => setPage(p => p + 1), [])
+  const onPrev = useCallback(() => setPage(p => p - 1), [])
 
   return (
     <div>
-      {loading ? (
-        <h2>Loading...</h2>
-      ) : error ? (
-        <h2>Something went wrong</h2>
-      ) : (
-        <div>{data && JSON.stringify(data.body, null, '\n')}</div>
-      )}
-      <button
-        style={{ marginTop: '20px' }}
-        disabled={loading}
-        type="submit"
-        onClick={onClick}
-      >
-        More
-      </button>
+      <div style={{ height: '100px' }}>
+        {loading ? (
+          <h2>Loading...</h2>
+        ) : error ? (
+          <h2>Something went wrong</h2>
+        ) : (
+          <div>{data && JSON.stringify(data.body, null, '\n')}</div>
+        )}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'row', marginTop: '20px' }}>
+        <button disabled={loading || page === 1} type="submit" onClick={onPrev}>
+          Prev
+        </button>
+        <button
+          style={{ marginLeft: '10px' }}
+          disabled={loading}
+          type="submit"
+          onClick={onNext}
+        >
+          Next
+        </button>
+      </div>
     </div>
   )
 }
