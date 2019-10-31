@@ -30,10 +30,7 @@ const reducer = (state, action) => {
         ...state,
         error: null,
         loading: false,
-        data: {
-          body: action.payload.body,
-          headers: action.payload.headers
-        }
+        data: action.payload
       }
     default:
       return state
