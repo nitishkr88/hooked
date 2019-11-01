@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import handleErrors from './handle-errors'
 
-const useFecthFn = (dispatch, url, options) => {
+const useFecthFn = (dispatch, url, options, requestOptions) => {
   return useCallback(() => {
     const doFetch = async () => {
       try {
@@ -13,7 +13,18 @@ const useFecthFn = (dispatch, url, options) => {
           }
         }
 
-        const response = await fetch(url, options)
+        const response = await fetch(url, {
+          ...options,
+          ...(typeof requestOptions === 'function'
+            ? requestOptions()
+            : requestOptions),
+          headers: {
+            ...options.headers,
+            ...(typeof requestOptions === 'function'
+              ? requestOptions().headers
+              : requestOptions.headers)
+          }
+        })
         const { headers } = response
 
         // eslint-disable-next-line no-underscore-dangle

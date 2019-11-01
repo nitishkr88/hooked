@@ -61,12 +61,17 @@ function resolvePath(base, path) {
 }
 
 const useLazyFetch = (path, options) => {
-  const { base } = useContext(FetchContext)
+  const { base, requestOptions } = useContext(FetchContext)
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const resolvedPath = resolvePath(base, path)
   const updatedOptions = parseOptions(options)
-  const doFetch = useFecthFn(dispatch, resolvedPath, updatedOptions)
+  const doFetch = useFecthFn(
+    dispatch,
+    resolvedPath,
+    updatedOptions,
+    requestOptions
+  )
 
   return [doFetch, state]
 }
