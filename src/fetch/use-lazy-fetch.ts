@@ -78,7 +78,7 @@ function prepareHeaders(headers: HeadersInit = {}) {
 const useLazyFetch = <T>(
   path: string,
   options?: RequestInit
-): [() => any, ResponseType<T>] => {
+): [() => void, ResponseType<T>] => {
   const { base, requestOptions } = useContext(FetchContext)
   const [state, dispatch] = useReducer<
     (state: ResponseType<T>, action: Action) => ResponseType<T>

@@ -8,7 +8,7 @@ const useFecthFn = (
   url: string,
   options: RequestInit,
   requestOptions: FetchProviderProps['requestOptions']
-) => {
+): (() => void) => {
   return useCallback(() => {
     const doFetch = async () => {
       try {
