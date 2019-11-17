@@ -3,24 +3,14 @@
 var webpack = require('webpack')
 
 var plugins = [
-  new webpack.optimize.OccurenceOrderPlugin(),
+  new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   })
 ]
 
-if (process.env.NODE_ENV === 'production') {
-  plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        screw_ie8: true,
-        warnings: false
-      }
-    })
-  )
-}
-
 module.exports = {
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -29,6 +19,11 @@ module.exports = {
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
       }
     ]
   },
@@ -37,7 +32,10 @@ module.exports = {
     libraryTarget: 'umd'
   },
   plugins: plugins,
+  optimization: {
+    minimize: process.env.NODE_ENV === 'production' ? true : false
+  },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   }
 }
