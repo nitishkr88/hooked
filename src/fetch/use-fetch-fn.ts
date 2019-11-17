@@ -1,7 +1,14 @@
 import { useCallback } from 'react'
 import handleErrors from './handle-errors'
+import { Action } from './use-lazy-fetch'
+import { FetchProviderProps } from './context'
 
-const useFecthFn = (dispatch, url, options, requestOptions) => {
+const useFecthFn = (
+  dispatch: React.Dispatch<Action>,
+  url: string,
+  options: RequestInit,
+  requestOptions: FetchProviderProps['requestOptions']
+) => {
   return useCallback(() => {
     const doFetch = async () => {
       try {
@@ -22,12 +29,12 @@ const useFecthFn = (dispatch, url, options, requestOptions) => {
             ...options.headers,
             ...(typeof requestOptions === 'function'
               ? requestOptions().headers
-              : requestOptions.headers)
+              : requestOptions && requestOptions.headers)
           }
         })
+
         const { headers } = response
 
-        // eslint-disable-next-line no-underscore-dangle
         const _response = handleErrors(response)
         const body = await _response.json()
 
