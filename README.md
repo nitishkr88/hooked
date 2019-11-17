@@ -6,6 +6,29 @@ React Hooks abstraction for few common APIs.
 
 ## API
 
+### `Exported Types`
+
+```js
+
+type Maybe<T> = T | null
+
+interface ResponseType<T = any> {
+  error?: Maybe<Error>
+  loading?: boolean
+  data: Maybe<{ body: T; headers: Headers }>
+}
+
+interface FetchProviderProps {
+  base: string
+  requestOptions?: (() => Partial<RequestInit>) | Partial<RequestInit>
+}
+
+const useFetch: <T>(url: string, options?: RequestInit) => ResponseType<T>
+
+const useLazyFetch: <T>(path: string, options?: RequestInit) => [() => void, ResponseType<T>]
+
+```
+
 ### `Eager Execution`
 
 ```js
