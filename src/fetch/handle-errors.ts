@@ -11,7 +11,7 @@ export default function handleErrors(response: Response) {
   let error: Error & { response?: Response }
 
   error = new Error(
-    response.statusText || `Request failed with status code ${response.status}`
+    `Failed to fetch: ${response.status} ${response.statusText}`
   )
   error.response = response
   throw error
