@@ -4,7 +4,9 @@
   "description": "library-boilerplate-example-description",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "run:fetch-hook": "webpack-dev-server",
+    "run:local-storage-hook": ""
   },
   "repository": {
     "type": "git",

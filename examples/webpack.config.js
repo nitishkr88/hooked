@@ -18,7 +18,7 @@ module.exports = {
   plugins: [new webpack.HotModuleReplacementPlugin()],
   resolve: {
     alias: {
-      hooked: path.join(__dirname, '..', '..', 'src'),
+      hooked: path.join(__dirname, '..', '..', 'src', 'lib'),
       react: path.resolve('./node_modules/react')
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx']
